@@ -1,7 +1,7 @@
-const news = `WELCOME 👋<h3>:
+const news = `WELCOME 👋<h1>
 	<ul>
 	<li><b>Hello, wellcome to Autobot site</b><br>
-	 Hi, feel free to use my autobotsite if you encounter some error to bot, you can contact me <p><a href="https://www.facebook.com/61550264923277" target="_blank"><img src="https://i.imgur.com/wICMefd.jpeg" alt="Facebook Icon" style="max-width: 30px;"></a></p>your
+	 <h3>Hi, feel free to use my autobotsite if you encounter some error to bot, you can contact me <p><a href="https://www.facebook.com/61550264923277" target="_blank"><img src="https://i.imgur.com/wICMefd.jpeg" alt="Facebook Icon" style="max-width: 30px;"></a></p></h3>
 	</li>
 	</ul>`;
 const cookieInfo = `Greetings! Begin by entering your appstate. Scroll down to carefully review our Terms and Privacy.`;
