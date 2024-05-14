@@ -1,9 +1,11 @@
-const news = ` <h3>WELCOME 👋</h3>
+const version = "2.0";
+const news = `	<h3>Version: ${version}</h3>
 	<ul>
-	<li><b>Hello, wellcome to Autobot site</b><br>
-	 <p>Hi, feel free to use my autobotsite if you encounter some error to bot, you can contact me <p><a href="https://www.facebook.com/61550264923277" target="_blank"><img src="https://i.imgur.com/wICMefd.jpeg" alt="Facebook Icon" style="max-width: 30px;"></a></p></p>
+	<li><b>Feature</b><br>
+	  hi if you have encountered some error please contact me <a href="https://www.facebook.com/61550264923277">
+				<button class="contact">Facebook</button></a> 
 	</li>
-	</ul>`;
+        </ul>`;
 const cookieInfo = `Greetings! Begin by entering your appstate. Scroll down to carefully review our Terms and Privacy.`;
 document.getElementById("news").innerHTML = news;
 document.getElementById("cookieInfo").innerHTML = cookieInfo;
