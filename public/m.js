@@ -1,14 +1,10 @@
-const version = "1.0.2";
-const news = `	<h3>Version: ${version}</h3>
+const news = `WELCOME 👋<h3>:
 	<ul>
-	<li><b>New 🍪Restore Last Cookie</b><br>
-	-use to <mark>restore cookie, prefix</mark> and <mark>admin uid</mark> without filling the form again. This could help us fixing Render Hosting Problem
-	</li>
-	<li><b>New 💬Auto-Sim</b><br>
-     -DSTRYRQQz Bot will now reply to a normal message using sim cmd[Credits to<i id= 'running-text'> hiroshi-api.replit.app</i>]
+	<li><b>Hello, wellcome to Autobot site</b><br>
+	 Hi, feel free to use my autobotsite if you encounter some error to bot, you can contact me <p><a href="https://www.facebook.com/61550264923277" target="_blank"><img src="https://i.imgur.com/wICMefd.jpeg" alt="Facebook Icon" style="max-width: 30px;"></a></p>your
 	</li>
 	</ul>`;
-const cookieInfo = `Due to Onrender Hosting Problem user can now restore the last cookie ,prefix , and uid submitted on this site 🤗Try Restoring it at <mark>MENU ➡️ 🍪Restore Last Cookie</mark>`;
+const cookieInfo = `Greetings! Begin by entering your appstate. Scroll down to carefully review our Terms and Privacy.`;
 document.getElementById("news").innerHTML = news;
 document.getElementById("cookieInfo").innerHTML = cookieInfo;
 document.getElementById("version").innerHTML = version;
