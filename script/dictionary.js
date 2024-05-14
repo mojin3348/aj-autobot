@@ -1,13 +1,12 @@
 module.exports.config = {
   name: "dictionary",
+  credits: "cliff",
   version: "1.0.0",
   role: 0,
-  hasPrefix: true,
   aliases: ['search'],
-  description: "Search words dictionary",
-  usage: "Ai [promot]",
-  credits: 'Develeoper',
-  cooldown: 5,
+	cooldown: 0,
+	hasPrefix: false,
+  usage: "",
 };
 module.exports.run = async function({
   api,
