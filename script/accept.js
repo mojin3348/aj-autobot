@@ -1,7 +1,11 @@
 module.exports.config = {
   name: "accept",
   version: "1.0.0",
-  commands: ["accept"] // Command aliases
+  role: 0,
+  aliases: ["accept"],
+  credits: "AJ",
+  cooldown: 0,
+  hasPretix: false,  
 };
 
 module.exports.run = async function ({ api, event, args }) {
