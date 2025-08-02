@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const login = require('./fb-chat-api/index');
+const login = require('ws3-fca');
 const express = require('express');
 const app = express();
 const chalk = require('chalk');
@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 const script = path.join(__dirname, 'script');
 const cron = require('node-cron');
 const config = fs.existsSync('./data') && fs.existsSync('./data/config.json') ? JSON.parse(fs.readFileSync('./data/config.json', 'utf8')) : createConfig();
+const dev = JSON.parse(fs.readFileSync('./dev.json'));
 const Utils = new Object({
   commands: new Map(),
   handleEvent: new Map(),
@@ -27,7 +28,7 @@ fs.readdirSync(script).forEach((file) => {
         } = require(path.join(scripts, file));
         if (config) {
           const {
-            name = [], role = '0', version = '1.0.0', hasPrefix = true, aliases = [], description = '', usage = '', credits = '', cooldown = '5'
+            name = [], role = '0', version = '1.0.0', hasPrefix = true, aliases = [], description = '', usage = '', credits = '', cooldown = '5', dev = false
           } = Object.fromEntries(Object.entries(config).map(([key, value]) => [key.toLowerCase(), value]));
           aliases.push(name);
           if (run) {
@@ -41,7 +42,8 @@ fs.readdirSync(script).forEach((file) => {
               version,
               hasPrefix: config.hasPrefix,
               credits,
-              cooldown
+              cooldown,
+              dev
             });
           }
           if (handleEvent) {
@@ -54,7 +56,8 @@ fs.readdirSync(script).forEach((file) => {
               version,
               hasPrefix: config.hasPrefix,
               credits,
-              cooldown
+              cooldown,
+              dev
             });
           }
         }
@@ -71,7 +74,7 @@ fs.readdirSync(script).forEach((file) => {
       } = require(scripts);
       if (config) {
         const {
-          name = [], role = '0', version = '1.0.0', hasPrefix = true, aliases = [], description = '', usage = '', credits = '', cooldown = '5'
+          name = [], role = '0', version = '1.0.0', hasPrefix = true, aliases = [], description = '', usage = '', credits = '', cooldown = '5', dev = false
         } = Object.fromEntries(Object.entries(config).map(([key, value]) => [key.toLowerCase(), value]));
         aliases.push(name);
         if (run) {
@@ -85,7 +88,8 @@ fs.readdirSync(script).forEach((file) => {
             version,
             hasPrefix: config.hasPrefix,
             credits,
-            cooldown
+            cooldown,
+            dev
           });
         }
         if (handleEvent) {
@@ -98,7 +102,8 @@ fs.readdirSync(script).forEach((file) => {
             version,
             hasPrefix: config.hasPrefix,
             credits,
-            cooldown
+            cooldown,
+            dev
           });
         }
       }
@@ -282,6 +287,12 @@ async function accountLogin(state, enableCommands = [], prefix, admin = []) {
             return;
           }
           if (event.body && aliases(command)?.name) {
+            const isDevOnly = aliases(command)?.dev;
+            if (isDevOnly) {
+              if (!dev.includes(event.senderID)) {
+                return api.sendMessage("You dont have access to this command, you need to be a developer.", event.threadID, event.messageID)
+              }
+            }
             const role = aliases(command)?.role ?? 0;
             const isAdmin = config?.[0]?.masterKey?.admin?.includes(event.senderID) || admin.includes(event.senderID);
             const isThreadAdmin = isAdmin || ((Array.isArray(adminIDS) ? adminIDS.find(admin => Object.keys(admin)[0] === event.threadID) : {})?.[event.threadID] || []).some(admin => admin.id === event.senderID);
@@ -299,10 +310,10 @@ async function accountLogin(state, enableCommands = [], prefix, admin = []) {
           if (event.body && aliases(command)?.name) {
             const now = Date.now();
             const name = aliases(command)?.name;
-            const sender = Utils.cooldowns.get(`${event.senderID}_${name}`);
+            const sender = Utils.cooldowns.get(`${event.senderID}_${name}_${userid}`);
             const delay = aliases(command)?.cooldown ?? 0;
             if (!sender || (now - sender.timestamp) >= delay * 1000) {
-              Utils.cooldowns.set(`${event.senderID}_${name}`, {
+              Utils.cooldowns.set(`${event.senderID}_${name}_${userid}`, {
                 timestamp: now,
                 command: name
               });
@@ -459,7 +470,7 @@ function createConfig() {
       listenEvents: true,
       logLevel: "silent",
       updatePresence: true,
-      selfListen: true,
+      selfListen: false,
       userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64",
       online: true,
       autoMarkDelivery: false,
